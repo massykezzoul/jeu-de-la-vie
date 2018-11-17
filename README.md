@@ -12,7 +12,11 @@ Les Règles sont décrtite <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie#
 
 une recherche google des tremes <a href="https://www.google.com/search?q=conway%27s+game+of+life">`Conway's game of life`</a>, fait apparaître un jeu de la vie en arrière-plan.
 
-## Prise en charge
+## Utilisation 
+
+L'utilisation du programme : 
+- Compiler avec `make all`
+- Executer avec `make exe`
 
 Cette version prend en charge la modification :
 - De la dimension du plateau de jeu.
@@ -20,7 +24,7 @@ Cette version prend en charge la modification :
 - Création d'une ou plusieurs cellule vivante à des position spécifié.
 
 Ces modification se font en écrivant dans le fichier [config](config),
-la syntaxe prise en charge par ce fichier est décrite dans [ce dernier](config).
+la syntaxe prise en charge par ce fichier est décrite directement dans ce dernier.
 
 ## A venir
 
