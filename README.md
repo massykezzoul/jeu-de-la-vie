@@ -14,12 +14,13 @@ une recherche google des tremes <a href="https://www.google.com/search?q=conway%
 
 ## Prise en charge
 
-Cette version prend en charge, en écrivant dans le fichier "config", la modification :
+Cette version prend en charge la modification :
 - De la dimension du plateau de jeu.
 - De la probabilité d'apparition d'une cellule vivante.
 - Création d'une ou plusieurs cellule vivante à des position spécifié.
 
-La syntaxe prise en charge par ce fichier est décrite dans [ce dernier](config).
+Ces modification se font en écrivant dans le fichier [config](config),
+la syntaxe prise en charge par ce fichier est décrite dans [ce dernier](config).
 
 ## A venir
 
