@@ -7,8 +7,12 @@ Malgré son nom, le jeu de la vie n'est pas un jeu au sens ludique du terme car 
 Pour plus d'information <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">Wikipédia</a>.
 Les Règles sont décrtite <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie#R%C3%A8gles">Ici</a>
 
+<<<<<<< HEAD
 ##Information intéressante
-une recherche google des tremes <a href="https://www.google.com/search?q=conway%27s+game+of+life">Conway's game of life</a>, fait apparaître un jeu de la vie en arrière-plan.
+une recherche google des tremes <a href="https://www.google.com/search?q=conway%27s+game+of+life">`Conway's game of life`</a>, fait apparaître un jeu de la vie en arrière-plan.
+=======
+Information intéressante, une recherche google des tremes <a href="https://www.google.com/search?q=conway%27s+game+of+life">`Conway's game of life`</a> fait apparaître un jeu de la vie en arrière-plan.
+>>>>>>> 0193dd26b540b79bf1db8700344e6c5b86e1cc74
 
 ##Prise en charge
 Cette version prend en charge, en écrivant dans le fichier "config", la modification :
@@ -20,8 +24,16 @@ La syntaxe prise en charge par ce fichier est décrite dans ce dernier.
 
 ##A venir
 Prochainement,Optimisation et la prise en charge de commande suplèmentaire Tel que :
+<<<<<<< HEAD
 -"--help" ou "-h" 			: Pour afficher tout les aides du programme.
 -"--config" ou "-c"		: Pour fournir un fichier de configuration au programme.
 -"--probability" ou "-p" 	: Pour fournir une probabilité par ligne de commande.
 -"--speed" ou "-s" 		: Pour fixer la vitesse de défilement des generations.
 -Etc..
+=======
+	- "--help" ou "-h" 			: Pour afficher tout les aides du programme.
+	- "--config" ou "-c"		: Pour fournir un fichier de configuration au programme.
+	- "--probability" ou "-p" 	: Pour fournir une probabilité par ligne de commande.
+	- "--speed" ou "-s" 		: Pour fixer la vitesse de défilement des generations.
+	- Etc..
+>>>>>>> 0193dd26b540b79bf1db8700344e6c5b86e1cc74
