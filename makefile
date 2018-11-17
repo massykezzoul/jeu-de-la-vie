@@ -1,16 +1,8 @@
 ################################################################################################################
 ##
-## Created By Massili Kezzoul to compile Code written in C++ on linux distribution
-## 
-## How to configure :
-##		-Set the program name (EXEC variable)
-## 		-Set the source code (SRC) and headers (HEADERS) if they are note in the same folder as this makefile
-##   	-Set the archive name if needed $(ARCHIVE_NAME)
-##  	-Happy Coding
-##
 ## How to use :
 ## 		-make all      = Compilation
-## 		-make exe      = executate the program (it will be compiled first)
+## 		-make exe      = Execution du program
 ## 		-make clean    = delete object files (*.o)
 ## 		-make mrproper = delete object files (*.o) and the executable that was created $(EXEC)
 ## 		-make tar      = create an archive .tar with all the source code, headers and this makefile
@@ -21,7 +13,7 @@
 CC=g++
 CFLAGS=-Wall -pedantic -ansi 
 LDFLAGS=
-EXEC=jeu_de_la_vie
+EXEC=jeu
 SRC=population/population.cpp cellule/cellule.cpp configuration/configuration.cpp configuration/convert/convert.cpp main.cpp
 OBJ= $(SRC:.cpp=.o)
 HEADERS = population/population.h cellule/cellule.h configuration/configuration.h configuration/convert/convert.h
@@ -52,11 +44,13 @@ mrproper :	clean
 exe :
 	@./$(EXEC) && echo '$(EXEC)' Done || echo Fail on running '$(EXEC)'
 
+# open all source code with sublim text
 subl : 
 	@subl $(SRC) $(HEADERS)
 
+# Affiche le nombre de ligne de code total
 line :
-	@wc -l $(SRC) $(HEADERS) makefile fichier_test/*
+	@wc -l $(SRC) $(HEADERS) makefile
 
 tar : 
 	@tar -czvf $(ARCHIVE_NAME).tar.gz makefile $(SRC) $(HEADERS) && echo "'$(ARCHIVE_NAME).tar.gz' created" || echo "FAIL"
