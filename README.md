@@ -6,7 +6,7 @@ Malgré son nom, le jeu de la vie n'est pas un jeu au sens ludique du terme car 
 Pour plus d'information <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">Wikipédia</a>.
 Les Règles sont décrtite <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie#R%C3%A8gles">Ici</a>
 
-Information intéressante, une recherche google des tremes <a href="https://www.google.com/search?q=conway%27s+game+of+life">Conway's game of life</a>, fait apparaître un jeu de la vie en arrière-plan.
+Information intéressante, une recherche google des tremes <a href="https://www.google.com/search?q=conway%27s+game+of+life">'Conway's game of life'</a> fait apparaître un jeu de la vie en arrière-plan.
 
 Cette version prend en charge, en écrivant dans le fichier "config", la modification :
 	- De la dimension du plateau de jeu.
