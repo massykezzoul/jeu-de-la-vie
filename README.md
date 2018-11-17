@@ -16,7 +16,8 @@ Cette version prend en charge, en écrivant dans le fichier "config", la modific
 La syntaxe prise en charge par ce fichier est décrite dans ce dernier.
 
 Prochainement,Optimisation et la prise en charge de commande suplèmentaire Tel que :
-	- "--help" ou "-h" 	: Pour afficher tout les aides du programme.
-	- "--config" ou "-c": Pour fournir un fichier de configuration au programme.
-	- "--probability" ou "-p" : Pour fournir une probabilité par ligne de commande.
+	- "--help" ou "-h" 			: Pour afficher tout les aides du programme.
+	- "--config" ou "-c"		: Pour fournir un fichier de configuration au programme.
+	- "--probability" ou "-p" 	: Pour fournir une probabilité par ligne de commande.
+	- "--speed" ou "-s" 		: Pour fixer la vitesse de défilement des generations.
 	- Etc..
