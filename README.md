@@ -15,17 +15,17 @@ une recherche google des tremes <a href="https://www.google.com/search?q=conway%
 ## Prise en charge
 
 Cette version prend en charge, en écrivant dans le fichier "config", la modification :
--De la dimension du plateau de jeu.
--De la probabilité d'apparition d'une cellule vivante.
--Création d'une ou plusieurs cellule vivante à des position spécifié.
+- De la dimension du plateau de jeu.
+- De la probabilité d'apparition d'une cellule vivante.
+- Création d'une ou plusieurs cellule vivante à des position spécifié.
 
-La syntaxe prise en charge par ce fichier est décrite dans ce dernier.
+La syntaxe prise en charge par ce fichier est décrite dans [ce dernier](config).
 
 ## A venir
 
 Optimisation et la prise en charge de commande suplèmentaire Tel que :
--"--help" ou "-h" 			: Pour afficher tout les aides du programme.
--"--config" ou "-c"		: Pour fournir un fichier de configuration au programme.
--"--probability" ou "-p" 	: Pour fournir une probabilité par ligne de commande.
--"--speed" ou "-s" 		: Pour fixer la vitesse de défilement des generations.
--Etc..
+- `--help` ou `-h` 			: Pour afficher tout les aides du programme.
+- `--config` ou `-c`		: Pour fournir un fichier de configuration au programme.
+- `--probability` ou `-p` 	: Pour fournir une probabilité par ligne de commande.
+- `--speed` ou `-s` 		: Pour fixer la vitesse de défilement des generations.
+- Etc..
