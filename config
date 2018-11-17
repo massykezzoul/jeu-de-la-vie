@@ -1,22 +1,28 @@
 # Fichier de configuration du jeu de la vie
 # Crée par Kezzoul massili En octobre 2018
+# Ce fichier est lû et exécuté par les fonctions définit dans 'configuration/configuration.cpp'
 
-# Chaque ligne Commençant par un '#' est ignoré par le programme
+# Tous ce qui vient après un '#' est ignoré par le programme
+# Ce fichier est sensible à la casse
 
+# Largeur de la plateforme de jeu
 # Mot clé "Dimension" suivit de ":" puis d'une valeur entière 
-# Attend une valeur entière comprise entre 3 et N (Par Défault Dimension : 8)
-# N étant égal à 15 (Définit dans le fichier population/popultaion.h)
+# Attend une valeur entière comprise entre 3 et N
+# N étant Définit dans le fichier d'entête population/popultaion.h
+# Si non spécifié alors, par défault Dimension = 10
 # Example 
-# Dimension : 8
- 	
-# Mot clé "Probability" suivit de ":" puis d'une valeur réel 
-# Attend une valeur Réel comprise entre 0 et 1 (Par Défault Probability : 0.25)
+# Dimension : 10
+
+# Probabilité d'apparition d'une cellule vivante 	
+# Mot clé "Probability" suivit de ":" puis d'une valeur réelle 
+# Attend une valeur Réelle comprise entre 0 et 1
+# Si non spécifié alors, par défault Probability = 0.25
 # Example
 # Probability : 0.25
 
+# Créer une cellule vivante aux coordonnées spécifiées 
 # Mot clé "Cell" suivit de ":" puis de deux valeur entière 
-# Crée une cellule vivante aux coordonnées spécifiées 
-# Les deux valeurs doivent être comprise entre 1 et la dimension (Par Défault : 8)
+# Les deux valeurs doivent être comprise entre 1 et la dimension
 # Les Coordonnées sont désignées par deux entiers séparé par soit ->
 # 	une vergule (',') ou le caractère : x ('x')
 # Example
@@ -25,11 +31,11 @@
 # Cell : 1x1
 # Cell : 8X4
 
-Probability   : 0.24            
-Dimension :   14
+Probability : 0.24
+Dimension : 14
 
-  Cell : 1x1
-Cell : 1,2 ## Un commentaire sauvage apparaît
+Cell : 1x1
+Cell : 1,2
 Cell : 1x3
-Cell  : 1    4
-Cell :  1X5 
+Cell : 1 4
+Cell : 1X5

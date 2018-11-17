@@ -13,25 +13,28 @@ using namespace std;
 
 /* testé maybe */
 string nettoyer_ligne(string ligne) {
-	// ligne sans commentaire
 	string sans_comment = ligne;
+	// Suppression des commentairess
 	sans_comment = sans_comment.substr(0,sans_comment.find_first_of("#"));
-	//supprimer les espaces en plus
-	//supprimer les espaces en debut de chaine
-	while (sans_comment[0] == ' ')
+
+	//supprimer les espaces en plus el tes tabulations
+	//supprimer les espaces et les tabulations en debut de chaine
+	while ((sans_comment[0] == ' ') || (sans_comment[0] == '\t'))
 		sans_comment.erase(0,1);
 
-	//supprimer les espaces au mileux de chaine
+	//supprimer les espaces et les tabulations en mileux de chaine
 	unsigned int i = 1;
 	while (i < sans_comment.size()) {
 		if ((sans_comment[i] == ' ') && (sans_comment[i-1] == ' '))
 			sans_comment.erase(i,1);
-		else 
+		else if (sans_comment[i] == '\t') // remplace les tabulation au milieu par un espace
+			sans_comment[i] = ' ';
+		else
 			++i;
 	}
 
-	//suprimer les espaces en fin de chaine 
-	while (sans_comment[sans_comment.size()-1] == ' ')
+	//suprimer les espaces et les tabulations en fin de chaine 
+	while ((sans_comment[sans_comment.size()-1] == ' ') || (sans_comment[sans_comment.size()-1] == '\t'))
 		sans_comment.erase(sans_comment.size()-1,1);
 
 	return sans_comment;
@@ -69,7 +72,7 @@ bool verif_valeur(string cle,string valeur) {
 
 /* Testé */
 bool decode_cell(string valeur,int& x,int& y) {
-	int i= 0;
+	unsigned int i= 0;
 
 	if (!isdigit(valeur[0]))
 		return false;
