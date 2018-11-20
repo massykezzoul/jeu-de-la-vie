@@ -44,9 +44,9 @@ mrproper :	clean
 exe :
 	@./$(EXEC) && echo '$(EXEC)' Done || echo Fail on running '$(EXEC)'
 
-# open all source code with sublim text
-subl : 
-	@subl $(SRC) $(HEADERS)
+# open all source code with visual studio code
+code : 
+	@code $(SRC) $(HEADERS)
 
 # Affiche le nombre de ligne de code total
 line :
