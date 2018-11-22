@@ -166,13 +166,13 @@ Population::Population(int argc,const char** argv)
 		switch (j) {
 			case 0:
 				/* help */
-				cout << "Afficher l'aide du programme" << endl;
-				terminate();
+				affiche_help();
+				exit(0);
 				break;
 			case 1:
 				/* version */
-				cout << "Version 0.1" << endl;
-				terminate();
+				affiche_version();
+				exit(0);
 				break;
 			case 2:
 				/* dimension */
@@ -226,11 +226,11 @@ Population::Population(int argc,const char** argv)
 		// Initialisation avec un fichier de configuration
 		string ligne,cle,valeur;
 		ifstream file(config.c_str());
-		if(file)
+		if(file) {
 			while (getline(file,ligne))
 				if ( extraire_cle_valeur(ligne,cle,valeur) )
 					set_cle_valeur(*this,cle,valeur);
-		else
+		} else
 			cerr << "Lecture du fichier de configuration impossible" << endl;
 	}
 
@@ -322,16 +322,16 @@ Population Population::next() const {
 void Population::set_probability(float const p) {
 	if ((p <= 1) && (p >= 0)){
 		probability = p;
-	}
+	} else 
+		cerr << "Erreur: " << p << " n'est une probabilité valable." << endl;
 }
 
 void Population::set_dimension(size_t const d) {
-	if ((d>0) && (d<80)) {
+	if ((d>0)) {
 		dimension = d;
 	}
-	else {
-		dimension = 80;
-	}
+	else
+		cerr << "Erreur: " << d << " n'est une dimension valable." << endl;
 }
 
 void Population::set_cell(size_t x,size_t y) {
@@ -422,32 +422,14 @@ bool Population::est_egal(Population const& pop) const {
 	}
 }
 
-void Population::affiche_dynamique() const {
-	cout << "+";
-		for (size_t k = 0; k < alive; ++k)
-			cout << "---+";
-	cout << endl << " ";
-	for (size_t k=0;k<alive;++k) {
-		T[k].print_cell();
-		cout << "|";
-	}
-	cout << endl;
-	cout << "+";
-		for (size_t k = 0; k < alive; ++k)
-			cout << "---+";
-		
-		cout << endl;
-}
-
-
 // Affiche la population sous forme de matrice
 void Population::affiche_matrice() const {
-	cout << "\t    +";
+	cout << "\t+";
 		for (size_t k = 0; k < dimension; ++k)
 			cout << "---+";
 	cout << endl;
 	for (size_t i = 0; i < dimension; ++i){
-		cout << "\t"<<i+1<<" - |";
+		cout << "\t|";
 		for (size_t j = 0; j < dimension; ++j){
 			if (at(i,j) != NULL)
 				at(i,j)->print_cell();
@@ -456,7 +438,7 @@ void Population::affiche_matrice() const {
 			cout << "|";
 		}
 		cout << endl;
-		cout << "\t    +";
+		cout << "\t+";
 		for (size_t k = 0; k < dimension; ++k)
 			cout << "---+";
 		
@@ -571,4 +553,15 @@ void simulation(Population &popu,fstream& stat) {
 		}
 	} else 
 		cerr << "Erreur d'ouverture du fichier " << endl;
+}
+
+// affiche les aides du programme
+void affiche_help() {
+	cout << "Utilisationn: jeu [OPTION] [ARGUMENT] " << endl
+		<< "Help à venir..." << endl;
+}
+
+// affiche la version du programme
+void affiche_version() {
+	cout << "jeu_de_la_vie 1.0.0"<< endl;
 }

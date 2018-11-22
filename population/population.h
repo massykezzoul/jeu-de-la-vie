@@ -3,20 +3,6 @@
 
 #include "../cellule/cellule.h"
 
-/*
-	TODO :
-	// 1 - Cellule T[N] ====> Cellule* T
-	// 2 - size_t alloc;
-	3 - ? void erase(Cellule&) (Supprime une cellule du tableau)
-	// 5 - Modification des constructeurs
-	// 6 - Constructeur par copie
-	// 7 - destructeur
-	// 8 - void extend()
-	// 9 - void push_pack()
-	// 10 - Modification de init, next et update_color
-	// 11 - Modification de birth et kill
-*/
-
 class Population {
 private:
 /* Attributs */
@@ -97,7 +83,7 @@ public:
 	// Calcule le prochaine etat de la population
 	Population next() const;	
 
-	//Setteurs
+	// Accesseur en écriture
 	void set_dimension(size_t const);
 
 	void set_probability(float const);
@@ -130,11 +116,11 @@ public:
 	//renvoie TRUE si la population courante egal à la population passé en paramètre
 	bool est_egal(Population const&) const;
 
-	void affiche_dynamique() const;
 	// Affiche la population sous forme de matrice
 	void affiche_matrice() const;
 	// Affiche la population sous forme de matrice sans couleur
 	void affiche_matrice_bw() const;
+
 };
 
 
@@ -148,5 +134,11 @@ bool operator==(Population const& a,Population const& b);
 // revoie vrai si les deux population sont différente
 bool operator!=(Population const& a,Population const& b);
 
+
+// affiche les aides du programme
+void affiche_help();
+
+// affiche la version du programme
+void affiche_version();
 
 #endif
