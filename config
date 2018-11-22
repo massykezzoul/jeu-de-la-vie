@@ -25,6 +25,7 @@
 # Les deux valeurs doivent être comprise entre 1 et la dimension
 # Les Coordonnées sont désignées par deux entiers séparé par soit ->
 # 	une vergule (',') ou le caractère : x ('x')
+# Remarque : Cell doit être donnée après Probability et Dimension 
 # Example
 # Cell : 1,2
 # Cell : 1 3
