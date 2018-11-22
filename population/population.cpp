@@ -7,6 +7,7 @@
 #include <exception>
 #include "../cellule/cellule.h"
 #include "../configuration/configuration.h"
+#include "../option/option.h"
 #include "population.h"
 
 using namespace std;
@@ -34,7 +35,7 @@ const Cellule* Population::at(size_t i, size_t j) const {
       return T+k;
     }
   }
-  return NULL;
+  return NULL; /* La cellule n'existe pas dans le tableau */
 }
 
 Cellule* Population::at(size_t i, size_t j)  {
@@ -43,38 +44,40 @@ Cellule* Population::at(size_t i, size_t j)  {
       return T+k;
     }
   }
-  return NULL;
+  return NULL; /* La cellule n'existe pas dans le tableau */
 }
 
-// Kill && Birth
+// Tuer une Cellule 
 void Population::kill(size_t i,size_t j) {
 	VERIFIER_EXISTANCE(i,j);
 	Cellule* ptr=at(i,j);
 	if (ptr!=NULL) {
-    	size_t k=ptr-T; // retrouve la position dans le tableau
+    	size_t k=ptr-T; // retrouve la position de la cellule dans le tableau
 		for ( ; k < alive - 1 ; k++) {
-				T[k]=T[k+1];
+			T[k]=T[k+1]; // Decale la position des cellules
 		}
 		alive--;
 	}
 }
+// Faire vivre une Cellule 
 void Population::birth(size_t i,size_t j) {
-	if (alive+1<N){
-    VERIFIER_EXISTANCE(i,j);
-    Cellule* ptr=at(i,j);
-    if (ptr==NULL) {
-      T[alive]=Cellule(true,i,j);    
-      alive++;
-    }
-    else{
-      ptr->set_vivante(true);
-    }
-  }
-  else {
-    cerr<<"PopulationVivante: Erreur -> trop de cellule vivante pour NMAX="<<N<<endl;
-    cerr<<"aborting...\n";
-    terminate();
-  }
+	if (alive+1< dimension * dimension){
+		VERIFIER_EXISTANCE(i,j);
+		Cellule* ptr=at(i,j);
+		if (ptr==NULL) {
+			//la cellule n'existe pas dans le tableau
+			push_back(Cellule(true,i,j));
+		}
+		else{
+			// La cellule existe dans le tableau
+			ptr->set_vivante(true);
+		}
+  	}
+ 	else {
+		cerr<<"Population: Erreur -> trop de cellule vivante pour une dimension de ="<<dimension<<endl;
+		cerr<<"aborting...\n";
+		terminate();
+	}
 }
 
 //Indique le nombre de Cellule de couleur c dans la population
@@ -87,6 +90,29 @@ size_t Population::nb_cellule(Couleur c) const {
       }    
   }
   return cpt;
+}
+
+// Extension du tableau 
+void Population::extend() {
+	if (alive >= alloc){
+		alloc *= 2;
+		Cellule* tmp = new Cellule[alloc];
+		for(size_t i = 0; i < alive; i++) {
+			tmp[i] = T[i];
+		}
+		delete[] T;
+		T = tmp;
+	}
+}
+
+// Supprime une cellule du tableau
+void Population::erase(Cellule* cel) {}
+
+// Rajoute une cellule vivante au tableau
+void Population::push_back(const Cellule cel) {
+	extend();
+	T[alive] = cel;
+	++alive;
 }
 
 // Calcule les nouvelles couleur des cellules
@@ -113,24 +139,138 @@ void Population::update_color() {
 
 // Constructeur
 // Initialisation avec les valeurs par défault
-Population::Population():generation(1),alive(0),probability(0.25),dimension(10),graine(0) {
+Population::Population()
+	:T(new Cellule[1]),generation(1),alive(0),alloc(1),probability(0.25),dimension(10),graine(0),speed(100000) {
 }
 
-// Initialiser la population avec un fichier de configuration
-Population::Population(ifstream &config):generation(1),alive(0),probability(0.25),dimension(10),graine(0) {
-	string ligne,cle,valeur;
-	if(config) {
-		while (getline(config,ligne)) {
-			if ( extraire_cle_valeur(ligne,cle,valeur) ) {
-				set_cle_valeur(*this,cle,valeur);
-			}
+Population::Population(int argc,const char** argv)
+	:T(new Cellule[1]),generation(1),alive(0),alloc(1),probability(0.25),dimension(10),graine(0),speed(100000) {
+	Option_tab tableau;
+	int i = 1;
+	int j = -1;
+	float proba = -1;
+	int dimension = -1;
+	int speed = -1;
+	string config = "";
+
+	while (i < argc) {
+		j = -1;
+		if (tableau.is_nom(argv[i])) {
+			// Est une option avec son nom long spécifié
+			j = tableau.get_option(tableau.cherche(&argv[i][2]));
+		} else if (tableau.is_raccourci(argv[i])) {
+			// Est une option avec son raccourci spécifié
+			j = tableau.get_option(tableau.cherche(argv[i][1]));
 		}
-	} else {
-		cerr << "Lecture du fichier de configuration impossible" << endl;
-		Population();
+
+		switch (j) {
+			case 0:
+				/* help */
+				cout << "Afficher l'aide du programme" << endl;
+				terminate();
+				break;
+			case 1:
+				/* version */
+				cout << "Version 0.1" << endl;
+				terminate();
+				break;
+			case 2:
+				/* dimension */
+				if ( (i + 1 < argc)  &&  (argv[i+1][0] != '-') ) {
+					++i; // passe à l'argument de l'option
+					dimension = strtod(argv[i],NULL); // recupere l'entier
+				} else {
+					cerr << "Argument manquant pour '" << argv[i] <<"'"
+						<< endl;
+				}	
+				break;
+			case 3:
+				/* config */
+				if ((i + 1 < argc)  &&  (argv[i+1][0] != '-')) {
+					++i; // passe à l'argument de l'option
+					config = argv[i]; // recupere la chaine
+				} else {
+					cerr << "Argument manquant pour '" << argv[i] <<"'"
+						<< endl;
+				}	
+				break;
+			case 4:
+				/* probability */
+				if ((i + 1 < argc)  &&  (argv[i+1][0] != '-')) {
+					++i; // passe à l'argument de l'option
+					proba = strtod(argv[i],NULL); // recupere l'entier
+				} else {
+					cerr << "Argument manquant pour '" << argv[i] <<"'"
+						<< endl;
+				}	
+				break;
+			case 5:
+				/* speed */
+				if ((i + 1 < argc)  &&  (argv[i+1][0] != '-')) {
+					++i; // passe à l'argument de l'option
+					speed = strtod(argv[i],NULL); // recupere l'entier
+				} else {
+					cerr << "Argument manquant pour '" << argv[i] <<"'"
+						<< endl;
+				}	
+				break;
+			default:
+				cerr << "L'option \"" << argv[i] 
+					<< "\" n'existe pas" << endl;
+				break;
+			}
+			++i;
 	}
+
+	if (config != "") {
+		// Initialisation avec un fichier de configuration
+		string ligne,cle,valeur;
+		ifstream file(config.c_str());
+		if(file)
+			while (getline(file,ligne))
+				if ( extraire_cle_valeur(ligne,cle,valeur) )
+					set_cle_valeur(*this,cle,valeur);
+		else
+			cerr << "Lecture du fichier de configuration impossible" << endl;
+	}
+
+	if (proba != -1) set_probability(proba);
+	if (dimension != -1) set_dimension(dimension);
+	if (speed != -1) set_speed(speed);
 }
 
+/* Constructer par copie */
+Population::Population(const Population& pop)
+	:T(new Cellule[pop.alloc]),generation(pop.generation)
+	,alive(pop.alive),alloc(pop.alloc),probability(pop.probability)
+	,dimension(pop.dimension),graine(pop.graine),speed(pop.speed) {
+		for (size_t i = 0;i <alive;++i) {
+			T[i] = pop.T[i];
+		}
+	}
+/* Destructeur */
+Population::~Population(){
+	delete[] T;
+}
+
+Population& Population::operator=(Population const& pop) {
+	if (this != &pop ) {
+        delete[] T;
+        T = new Cellule[pop.alloc];
+        generation = pop.generation;
+        alive = pop.alive;
+		alloc = pop.alloc;
+        probability = pop.probability;
+        dimension = pop.dimension;
+        graine = pop.graine;
+        speed = pop.speed;
+
+        for(size_t j = 0; j < alive; ++j) {
+            T[j] = pop.T[j];
+        }
+    }
+    return *this;
+}
 
 // Initialisation de la population
 void Population::init(size_t g) {
@@ -148,8 +288,7 @@ void Population::init(size_t g) {
 			j = rand() % dimension;
 		} while (at(i,j) != NULL);
 		// Une fois la cellule trouvé lui donné la vie
-		T[k]=Cellule(true,i,j);
-		alive++;
+		birth(i,j);
 	}
 	update_color();
 }
@@ -187,19 +326,18 @@ void Population::set_probability(float const p) {
 }
 
 void Population::set_dimension(size_t const d) {
-	if ((d>0) && (d<NB)) {
+	if ((d>0) && (d<80)) {
 		dimension = d;
 	}
 	else {
-		dimension = NB;
+		dimension = 80;
 	}
 }
 
 void Population::set_cell(size_t x,size_t y) {
 	if (alive+1<dimension) {
 		if ( (x <= dimension) && (y <= dimension) && (x >= 1) && (y >= 1)) {
-			T[alive] = Cellule(true,x-1,y-1);
-			++alive;
+			birth(x-1,y-1);
 			/* affichage superful */
 			cout << "Cell (" << x << "," << y<<") Est vivante"<< endl; 
 		}
@@ -207,6 +345,11 @@ void Population::set_cell(size_t x,size_t y) {
 			cerr << "Accessing a Cell at (" << x << "," << y << ") out of range..." << endl;
 	} else 
 		cerr << "Population pleine" << endl;
+}
+
+void Population::set_speed(int v) {
+	if (v >= 0)
+		speed = v;
 }
 
 void Population::generation_pp() {
@@ -259,6 +402,9 @@ size_t Population::get_dimension() const {
 float Population::get_probability() const {
 	return probability;
 }
+int Population::get_speed() const {
+	return speed;
+}
 
 
 //renvoie TRUE si la population courante egal à la population passé en paramètre
@@ -274,16 +420,34 @@ bool Population::est_egal(Population const& pop) const {
 	} else {
 		return false;
 	}
-}	
+}
+
+void Population::affiche_dynamique() const {
+	cout << "+";
+		for (size_t k = 0; k < alive; ++k)
+			cout << "---+";
+	cout << endl << " ";
+	for (size_t k=0;k<alive;++k) {
+		T[k].print_cell();
+		cout << "|";
+	}
+	cout << endl;
+	cout << "+";
+		for (size_t k = 0; k < alive; ++k)
+			cout << "---+";
+		
+		cout << endl;
+}
+
 
 // Affiche la population sous forme de matrice
 void Population::affiche_matrice() const {
-	cout << "\t+";
+	cout << "\t    +";
 		for (size_t k = 0; k < dimension; ++k)
 			cout << "---+";
 	cout << endl;
 	for (size_t i = 0; i < dimension; ++i){
-		cout << "\t|";
+		cout << "\t"<<i+1<<" - |";
 		for (size_t j = 0; j < dimension; ++j){
 			if (at(i,j) != NULL)
 				at(i,j)->print_cell();
@@ -292,7 +456,7 @@ void Population::affiche_matrice() const {
 			cout << "|";
 		}
 		cout << endl;
-		cout << "\t+";
+		cout << "\t    +";
 		for (size_t k = 0; k < dimension; ++k)
 			cout << "---+";
 		
@@ -339,19 +503,14 @@ Cellule Population::get_cellule(size_t k) const {
 	return T[k];
 }
 
-// Affiche la cellule positionné à la position (i,j)
-void Population::print_cell(size_t i,size_t j) {
-	VERIFIER_EXISTANCE(i,j);
-	at(i,j)->print_cell();
-}
-
 
 // Affiche L'evolution de la population jusqu'à sa stabilité
-void simulation(Population &popu,size_t temps_pose) {
+void simulation(Population &popu) {
 	size_t vivant_debut = popu.get_vivante();
 	size_t dimension = popu.get_dimension();
+	int temps_pose = popu.get_speed();
 	while ( (popu != popu.next()) && (popu != popu.next().next()) )  {
-		cout << "Voici La population de Départ : " << endl << endl ;
+		cout << "Voici La population de Départ : " << endl << endl;
 		popu.affiche_matrice();
 
 		cout << "Pourcentage de vie : " << popu.get_vivante()*100 / (dimension*dimension) <<"%" << endl
@@ -360,7 +519,6 @@ void simulation(Population &popu,size_t temps_pose) {
 		
 		if (popu.get_generation() == 1) {
 			cout << "Qliquer sur Entrée pour commencer la Simulation ..." << endl;
-
 			getchar();
 		}
 		

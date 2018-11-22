@@ -2,7 +2,7 @@
 ##
 ## How to use :
 ## 		-make all      = Compilation
-## 		-make exe      = Execution du program
+## 		-make exe      = Execution du program sans aucun paramètre
 ## 		-make clean    = delete object files (*.o)
 ## 		-make mrproper = delete object files (*.o) and the executable that was created $(EXEC)
 ## 		-make tar      = create an archive .tar with all the source code, headers and this makefile
@@ -14,9 +14,9 @@ CC=g++
 CFLAGS=-Wall -pedantic -ansi 
 LDFLAGS=
 EXEC=jeu
-SRC=population/population.cpp cellule/cellule.cpp configuration/configuration.cpp configuration/convert/convert.cpp main.cpp
+SRC=population/population.cpp cellule/cellule.cpp configuration/configuration.cpp configuration/convert/convert.cpp option/option.cpp main.cpp
 OBJ= $(SRC:.cpp=.o)
-HEADERS = population/population.h cellule/cellule.h configuration/configuration.h configuration/convert/convert.h
+HEADERS = population/population.h cellule/cellule.h configuration/configuration.h configuration/convert/convert.h option/option.h
 # The name of the archive
 ARCHIVE_NAME=configuration_source
 

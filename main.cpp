@@ -9,18 +9,25 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	/*
-		Lecture du fichier de configuration
-	 */
-	string nom_fichier("config");
-
-	ifstream file(nom_fichier.c_str(),ios::in);
-
-	Population jeu(file);
-	
-	/* Mode affichage */
+	// Initialisé le jeu selon les arguments donnée en paramétre
+	Population jeu(argc,argv);
 	jeu.init();
-	simulation(jeu,100000);
+	/*
+	jeu.affiche_matrice_bw();
+	jeu.affiche_dynamique();
+
+	jeu = jeu.next();
+
+	jeu.affiche_matrice_bw();
+	jeu.affiche_dynamique();
+
+	jeu = jeu.next();
+
+	jeu.affiche_matrice();
+	jeu.affiche_dynamique();
+	*/
+
+	simulation(jeu);
 
 	/* Mode Statistique à regler*/
 	//fstream stat("vie.stat",ios::out | ios::app);

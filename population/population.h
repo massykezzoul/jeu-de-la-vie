@@ -3,27 +3,40 @@
 
 #include "../cellule/cellule.h"
 
-// Largeur de la platforme maximal
-#define NB 40	
-// Nombre de cellule vivante maximal
-#define N NB*NB
+/*
+	TODO :
+	// 1 - Cellule T[N] ====> Cellule* T
+	// 2 - size_t alloc;
+	3 - ? void erase(Cellule&) (Supprime une cellule du tableau)
+	// 5 - Modification des constructeurs
+	// 6 - Constructeur par copie
+	// 7 - destructeur
+	// 8 - void extend()
+	// 9 - void push_pack()
+	// 10 - Modification de init, next et update_color
+	// 11 - Modification de birth et kill
+*/
 
 class Population {
 private:
 /* Attributs */
 
 	/* Tableau de celulle contenant que les cellule vivante, les autres sont automatiquement morte */
-	Cellule T[N]; 
+	Cellule* T;
 	/* La generation de la population */
 	size_t generation;
 	/* Nombre de Cellule Vivante */
 	size_t alive;
+	/* Taille du tableau en mémoire */
+	size_t alloc;
 	/* Probability d'apparition d'une cellule vivante*/
 	float probability;
 	/* Dimension de la plateforme de Jeu (Dimension * Dimension) */
 	size_t dimension;
-	/* La graine sert à reproduire d'une simulation précedente	*/
+	/* La graine sert à reproduire une simulation précedente	*/
 	size_t graine;
+	/* vitesse de changement de population (en ms)*/
+	int speed;
 
 /* Methode Privé */
 
@@ -41,6 +54,16 @@ private:
 	//Indique le nombre de Cellule de couleur c dans la population
 	size_t nb_cellule(Couleur c) const;
 
+	/* Si le tableau est plein réalloue un nouveaux tableau deux fois plus grand */
+	void extend();
+	
+	/* Supprime une cellule du tableau sera appelé par kill ?? */
+	void erase(Cellule*);
+	// ---------------------------------------
+
+	/* Rajoute une cellule vivante au tableau */
+	void push_back(const Cellule);
+
 	/* 
 		Calcule les nouvelles couleur des cellules
 	   	Ne gere pas le cellule qui vont mourir et celles qui vont ranaitre
@@ -56,8 +79,17 @@ public:
 	//Constructeur
 	Population();
 
-	// Initialiser la population avec un fichier de configuration
-	Population(std::ifstream &config);
+	// Initialiser la population avec les aruments donné en paramètre
+	Population(int,const char**);
+
+	// Constructeur par copie
+	Population(const Population&);
+
+	// Destructeur
+	~Population();
+
+	// Surcharge de l'operateur d'affectation
+	Population& operator=(Population const&);
 
 	//Initialise la population selon la probabilité et la dimension
 	void init(size_t graine = 0);
@@ -71,6 +103,8 @@ public:
 	void set_probability(float const);
 
 	void set_cell(size_t,size_t);
+
+	void set_speed(int);
 
 	// increment la variable generation
 	void generation_pp();
@@ -87,6 +121,7 @@ public:
 	size_t get_graine() const;
 	size_t get_dimension() const;
 	float get_probability() const;
+	int get_speed() const;
 
 	// Retourne la reference const d'une cellule selon sa position donné en paramètre
 	Cellule get_cellule(size_t,size_t) const;
@@ -95,18 +130,16 @@ public:
 	//renvoie TRUE si la population courante egal à la population passé en paramètre
 	bool est_egal(Population const&) const;
 
+	void affiche_dynamique() const;
 	// Affiche la population sous forme de matrice
 	void affiche_matrice() const;
 	// Affiche la population sous forme de matrice sans couleur
 	void affiche_matrice_bw() const;
-	
-	// Affiche la cellule à la position (i,j)
-	void print_cell(size_t i,size_t j);
 };
 
 
 // Affiche L'evolution de la population jusqu'à sa stabilité
-void simulation(Population&,size_t = 300000);
+void simulation(Population&);
 /* Lancement d'une simulation pour des statistiques (aucun affichage) */
 void simulation(Population &popu,std::fstream& stat);
 
@@ -114,5 +147,6 @@ void simulation(Population &popu,std::fstream& stat);
 bool operator==(Population const& a,Population const& b);
 // revoie vrai si les deux population sont différente
 bool operator!=(Population const& a,Population const& b);
+
 
 #endif
