@@ -24,7 +24,7 @@ Cette version prend en charge la modification :
 - De la probabilité d'apparition d'une cellule vivante.
 - Création d'une ou plusieurs cellule vivante à des position spécifié.
 
-Ces modification peuvent se faire par deux méthodes, soit en appelant le programme avec des paramètres (liste des paramètre precisé un peu plus loin). Mais cette méthode ne prend pas en charge la création des cellule dans une position donnée.
+Ces modification peuvent se faire par deux méthodes, soit en appelant le programme avec des paramètres (liste des paramètre precisé un peu plus loin). Mais cette méthode ne prend pas en charge la création des cellule dans une position donnée.<br>
 Soit en écrivant dans le fichier [Config](config), puis d'appeler le programme avec la commande `./jeu -c config`.
 
 ## Liste des paramètre 
@@ -40,8 +40,8 @@ L'utilisation des paramètres du programme se font ainsi :
 Example : 
 -   `./jeu --probability 0.25` : Mets la probabilité à 25%.
 -   `./jeu --dimension 15`     : Mets la dimension à 15 cases x 15 cases.
--   `./jeu -s 10000`           : Mets le temps d'attente à 1000000 Microsecondes (1 seconde).
--   `./jeu -p 0.25 -d 15 -s 10000` : Les 3 fonctions précedente en même temps.
+-   `./jeu -s 1000000`           : Mets le temps d'attente à 1000000 Microsecondes (1 seconde).
+-   `./jeu -p 0.25 -d 15 -s 1000000` : Les 3 fonctions précedente en même temps.
 
 
 ## A venir
