@@ -18,7 +18,7 @@ SRC=population/population.cpp cellule/cellule.cpp configuration/configuration.cp
 OBJ= $(SRC:.cpp=.o)
 HEADERS = population/population.h cellule/cellule.h configuration/configuration.h configuration/convert/convert.h option/option.h
 # The name of the archive
-ARCHIVE_NAME=configuration_source
+ARCHIVE_NAME=code_source_v0.1
 
 ## Compilation
 
@@ -41,18 +41,14 @@ clean :
 mrproper :	clean
 	@rm $(EXEC) -rvf
 
-exe :
-	@./$(EXEC) && echo '$(EXEC)' Done || echo Fail on running '$(EXEC)'
-
-# open all source code with visual studio code
-code : 
-	@code $(SRC) $(HEADERS)
-
 # Affiche le nombre de ligne de code total
 line :
 	@wc -l $(SRC) $(HEADERS) makefile
 
+# Compression en .tar.gz
 tar : 
 	@tar -czvf $(ARCHIVE_NAME).tar.gz makefile $(SRC) $(HEADERS) && echo "'$(ARCHIVE_NAME).tar.gz' created" || echo "FAIL"
+
+# Compression en .zip
 zip : 
 	@zip -r $(ARCHIVE_NAME).zip makefile $(SRC) $(HEADERS) && echo "'$(ARCHIVE_NAME).zip' created" || echo "FAIL"
